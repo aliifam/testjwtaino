@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 const Dashboard = () => {
     const [name, setName] = useState("");
     const [token, setToken] = useState("");
+    const [id, setId] = useState("");
     const [expired, setExpired] = useState("");
     const [users, setUsers] = useState([]);
 
@@ -22,6 +23,7 @@ const Dashboard = () => {
             setToken(response.data.accessToken);
             const decoded = jwt_decode(response.data.accessToken);
             setName(decoded.name);
+            setId(decoded.id);
             setExpired(decoded.exp);
         } catch (error) {
             if (error.response.status === 401) {
@@ -41,6 +43,7 @@ const Dashboard = () => {
                 setToken(response.data.accessToken);
                 const decoded = jwt_decode(response.data.accessToken);
                 setName(decoded.name);
+                setId(decoded.id);
                 setExpired(decoded.exp);
             }
             return config;
@@ -62,9 +65,15 @@ const Dashboard = () => {
         setUsers(response.data);
     };
 
+    const editName = () => {
+        navigate(`/edit/${id}`);
+    };
     return (
         <div className="container mt-5">
             <h1 className="mb-5">Current User : {name}</h1>
+            <button className="button is-info mb-5" onClick={editName}>
+                Edit Name
+            </button>
 
             <table className="table is-stripped is-fullwidth">
                 <thead>

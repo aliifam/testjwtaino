@@ -14,10 +14,6 @@ const Navbar = () => {
         }
     };
 
-    const Editprofile = () => {
-        navigate("/editprofile");
-    };
-
     return (
         <nav
             className="navbar is-light"
@@ -28,7 +24,7 @@ const Navbar = () => {
                 <div className="navbar-brand">
                     <a className="navbar-item" href="https://bulma.io">
                         <img
-                            src="https://bulma.io/images/bulma-logo.png"
+                            src="https://www.ainosi.co.id/pixld-app/media/2021/08/LOGO-AINO-INDONESIA.svg"
                             width="112"
                             height="28"
                         />
@@ -49,23 +45,7 @@ const Navbar = () => {
                 </div>
 
                 <div id="navbarBasicExample" className="navbar-menu">
-                    <div className="navbar-start">
-                        <a href="/" className="navbar-item">
-                            Home
-                        </a>
-                    </div>
-
                     <div className="navbar-end">
-                        <div className="navbar-item">
-                            <div className="buttons">
-                                <button
-                                    onClick={Editprofile}
-                                    className="button is-light"
-                                >
-                                    Edit Profile
-                                </button>
-                            </div>
-                        </div>
                         <div className="navbar-item">
                             <div className="buttons">
                                 <button

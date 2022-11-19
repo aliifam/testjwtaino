@@ -1,5 +1,12 @@
 import express from "express";
-import { getUsers, Register, Login, Logout } from "../controllers/Users.js";
+import {
+    getUsers,
+    Register,
+    Login,
+    Logout,
+    editUser,
+    getUserName,
+} from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 
@@ -10,5 +17,7 @@ router.post("/register", Register);
 router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
+router.put("/users/:id", verifyToken, editUser);
+router.put("/users/:id", verifyToken, getUserName);
 
 export default router;
