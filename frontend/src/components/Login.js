@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,21 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        checkLogin();
+    }, []);
+
+    const checkLogin = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/token");
+            if (response.status === 200) {
+                navigate("/");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const Login = async (e) => {
         e.preventDefault();
         try {
@@ -17,7 +32,7 @@ const Login = () => {
                 email,
                 password,
             });
-            navigate("/dashboard");
+            navigate("/");
         } catch (error) {
             if (error.response) {
                 setError(error.response.data.message);

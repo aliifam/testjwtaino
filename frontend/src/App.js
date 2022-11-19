@@ -8,10 +8,10 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route
-                    path="/dashboard"
+                    path="/"
                     element={
                         <>
                             <Navbar />

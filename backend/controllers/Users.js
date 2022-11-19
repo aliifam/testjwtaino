@@ -96,3 +96,25 @@ export const Logout = async (req, res) => {
     res.clearCookie("refreshToken");
     res.status(200).json({ message: "Logged out successfully." });
 };
+
+export const editUser = async (req, res) => {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ message: "Please fill in all fields." });
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    try {
+        await Users.update(
+            { name: name, email: email, password: hashedPassword },
+            { where: { id: id } }
+        );
+        return res.status(200).json("User updated successfully.");
+    } catch (error) {
+        return res.status(409).json({ message: error.message });
+    }
+};

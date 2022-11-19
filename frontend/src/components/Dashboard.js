@@ -25,7 +25,7 @@ const Dashboard = () => {
             setExpired(decoded.exp);
         } catch (error) {
             if (error.response.status === 401) {
-                navigate("/");
+                navigate("/login");
             }
         }
     };
@@ -64,7 +64,7 @@ const Dashboard = () => {
 
     return (
         <div className="container mt-5">
-            <h1>Welcome : {name}</h1>
+            <h1 className="mb-5">Current User : {name}</h1>
 
             <table className="table is-stripped is-fullwidth">
                 <thead>

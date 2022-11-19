@@ -8,10 +8,14 @@ const Navbar = () => {
     const Logout = () => {
         try {
             axios.delete("http://localhost:5000/logout");
-            navigate("/");
+            navigate("/login");
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const Editprofile = () => {
+        navigate("/editprofile");
     };
 
     return (
@@ -52,6 +56,16 @@ const Navbar = () => {
                     </div>
 
                     <div className="navbar-end">
+                        <div className="navbar-item">
+                            <div className="buttons">
+                                <button
+                                    onClick={Editprofile}
+                                    className="button is-light"
+                                >
+                                    Edit Profile
+                                </button>
+                            </div>
+                        </div>
                         <div className="navbar-item">
                             <div className="buttons">
                                 <button
