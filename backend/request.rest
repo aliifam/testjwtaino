@@ -1,4 +1,5 @@
 GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpkQG1haWwuY29tIiwiaWQiOjUsImlhdCI6MTY2ODgzODEwNywiZXhwIjoxNjY4ODM4MTM3fQ.YxOWVB88ZczFPuUzDHA-PNoWXCuS5-tS9RrVtYz5mWI
 
 ###
 POST http://localhost:5000/register
@@ -19,3 +20,9 @@ Content-Type: application/json
   "email": "jd@mail.com",
   "password": "123456"
 }
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/logout

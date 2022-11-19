@@ -4,7 +4,9 @@ import jwt from "jsonwebtoken";
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await Users.findAll();
+        const users = await Users.findAll({
+            attributes: ["id", "email", "name"],
+        });
         res.status(200).json(users);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -58,7 +60,7 @@ export const Login = async (req, res) => {
         const token = jwt.sign(
             { email: user.email, id: user.id },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "20s" }
+            { expiresIn: "30s" }
         );
 
         const refreshToken = jwt.sign(
@@ -80,4 +82,17 @@ export const Login = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: "Something went wrong." });
     }
+};
+
+export const Logout = async (req, res) => {
+    const token = req.cookies.refreshToken;
+    if (!token) return res.status(204).json({ message: "No content" });
+
+    const user = await Users.findOne({ where: { refresh_token: token } });
+    if (!user) return res.status(204).json({ message: "No content" });
+
+    await user.update({ refresh_token: null });
+
+    res.clearCookie("refreshToken");
+    res.status(200).json({ message: "Logged out successfully." });
 };
