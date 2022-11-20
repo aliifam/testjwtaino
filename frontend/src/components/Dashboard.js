@@ -19,14 +19,16 @@ const Dashboard = () => {
 
     const refrestToken = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/token");
+            const response = await axios.get(
+                `${process.env.REACT_APP_BACKEND_URL}/token`
+            );
             setToken(response.data.accessToken);
             const decoded = jwt_decode(response.data.accessToken);
             setName(decoded.name);
             setId(decoded.id);
             setExpired(decoded.exp);
         } catch (error) {
-            if (error.response.status === 401) {
+            if (error.response.status) {
                 navigate("/login");
             }
         }
@@ -38,7 +40,9 @@ const Dashboard = () => {
         async (config) => {
             const currentTime = Date.now() / 1000;
             if (currentTime >= expired) {
-                const response = await axios.get("http://localhost:5000/token");
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BACKEND_URL}/token`
+                );
                 config.headers.Authorization = `Bearer ${response.data.accessToken}`;
                 setToken(response.data.accessToken);
                 const decoded = jwt_decode(response.data.accessToken);
@@ -55,7 +59,7 @@ const Dashboard = () => {
 
     const getUsers = async () => {
         const response = await axiosWithToken.get(
-            "http://localhost:5000/users",
+            `${process.env.REACT_APP_BACKEND_URL}/users`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -68,12 +72,34 @@ const Dashboard = () => {
     const editName = () => {
         navigate(`/edit/${id}`);
     };
+
+    const deleteAccount = async () => {
+        await axiosWithToken.delete(
+            `${process.env.REACT_APP_BACKEND_URL}/users/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        navigate("/register");
+    };
     return (
         <div className="container mt-5">
             <h1 className="mb-5">Current User : {name}</h1>
             <button className="button is-info mb-5" onClick={editName}>
                 Edit Name
             </button>
+            <button
+                className="button is-danger ml-5 mb-5"
+                onClick={deleteAccount}
+            >
+                Delete Account
+            </button>
+
+            <h1 className="mb-5 is-size-3 has-text-centered">
+                All Registered Users
+            </h1>
 
             <table className="table is-stripped is-fullwidth">
                 <thead>
@@ -93,6 +119,11 @@ const Dashboard = () => {
                     ))}
                 </tbody>
             </table>
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Technical Test Fullstack Internship by Aliif</p>
+                </div>
+            </footer>
         </div>
     );
 };

@@ -7,7 +7,7 @@ const Navbar = () => {
 
     const Logout = () => {
         try {
-            axios.delete("http://localhost:5000/logout");
+            axios.delete(`${process.env.REACT_APP_BACKEND_URL}/logout`);
             navigate("/login");
         } catch (error) {
             console.log(error);
@@ -27,35 +27,19 @@ const Navbar = () => {
                             src="https://www.ainosi.co.id/pixld-app/media/2021/08/LOGO-AINO-INDONESIA.svg"
                             width="112"
                             height="28"
+                            alt="ainosi"
                         />
-                    </a>
-
-                    <a
-                        href="/"
-                        role="button"
-                        className="navbar-burger burger"
-                        aria-label="menu"
-                        aria-expanded="false"
-                        data-target="navbarBasicExample"
-                    >
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
                     </a>
                 </div>
 
-                <div id="navbarBasicExample" className="navbar-menu">
-                    <div className="navbar-end">
-                        <div className="navbar-item">
-                            <div className="buttons">
-                                <button
-                                    onClick={Logout}
-                                    className="button is-light"
-                                >
-                                    Log out
-                                </button>
-                            </div>
-                        </div>
+                <div className="navbar-end">
+                    <div className="buttons">
+                        <button
+                            onClick={Logout}
+                            className="button is-danger has-text-white"
+                        >
+                            Log out
+                        </button>
                     </div>
                 </div>
             </div>

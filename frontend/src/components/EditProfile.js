@@ -20,7 +20,9 @@ const EditProfile = () => {
 
     const refrestToken = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/token");
+            const response = await axios.get(
+                `${process.env.REACT_APP_BACKEND_URL}/token`
+            );
             setToken(response.data.accessToken);
             const decoded = jwt_decode(response.data.accessToken);
             setName(decoded.name);
@@ -39,7 +41,9 @@ const EditProfile = () => {
         async (config) => {
             const currentTime = Date.now() / 1000;
             if (currentTime >= expired) {
-                const response = await axios.get("http://localhost:5000/token");
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BACKEND_URL}/token`
+                );
                 config.headers.Authorization = `Bearer ${response.data.accessToken}`;
                 setToken(response.data.accessToken);
                 const decoded = jwt_decode(response.data.accessToken);
@@ -57,7 +61,7 @@ const EditProfile = () => {
         e.preventDefault();
         try {
             await axiosWithToken.put(
-                `http://localhost:5000/users/${id}`,
+                `${process.env.REACT_APP_BACKEND_URL}/users/${id}`,
                 {
                     name,
                 },

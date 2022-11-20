@@ -12,35 +12,41 @@ const Register = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const checkLogin = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BACKEND_URL}/token`
+                );
+                if (response.status === 200) {
+                    navigate("/");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
         checkLogin();
     }, []);
-
-    const checkLogin = async () => {
-        try {
-            const response = await axios.get("http://localhost:5000/token");
-            if (response.status === 200) {
-                navigate("/");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const Register = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5000/register", {
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/register`, {
                 name,
                 email,
                 password,
                 confirmPassword: confirmpassword,
             });
-            navigate("/");
+            navigate("/login");
         } catch (error) {
             if (error.response) {
                 setError(error.response.data.message);
             }
         }
+    };
+
+    const goLogin = () => {
+        navigate("/login");
     };
 
     return (
@@ -116,6 +122,16 @@ const Register = () => {
                                         Register
                                     </button>
                                 </div>
+                                <p className="has-text-centered has-text-danger">
+                                    Already have an account?
+                                    <span
+                                        className="is-clickable has-text-info"
+                                        onClick={goLogin}
+                                    >
+                                        {" "}
+                                        Login
+                                    </span>
+                                </p>
                             </form>
                         </div>
                     </div>
