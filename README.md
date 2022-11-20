@@ -34,6 +34,8 @@ Backend system deployed in railway.app
 
 #### Frontend
 
+Frontend system deployed in vercel.app
+
 -   ReactJS (front end framework)
 -   Axios (http call)
 -   Bulma CSS (UI framework)
