@@ -6,6 +6,7 @@ import {
     Logout,
     editUser,
     getUserName,
+    deleteUser,
 } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
@@ -18,6 +19,7 @@ router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 router.put("/users/:id", verifyToken, editUser);
-router.put("/users/:id", verifyToken, getUserName);
+router.get("/users/:id", verifyToken, getUserName);
+router.delete("/users/:id", verifyToken, deleteUser);
 
 export default router;

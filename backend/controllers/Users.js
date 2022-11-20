@@ -24,6 +24,21 @@ export const Register = async (req, res) => {
         return res.status(400).json({ message: "Please fill in all fields." });
     }
 
+    try {
+        const checkEmail = await Users.findOne({
+            where: {
+                email,
+            },
+        });
+
+        if (checkEmail) {
+            return res
+                .status(400)
+                .json({ message: "User with this email already exists." });
+        }
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -75,6 +90,7 @@ export const Login = async (req, res) => {
         return res
             .cookie("refreshToken", refreshToken, {
                 httpOnly: true,
+                sameSite: "none",
                 maxAge: 24 * 60 * 60 * 1000,
             })
             .status(200)
@@ -118,6 +134,16 @@ export const getUserName = async (req, res) => {
     try {
         const user = await Users.findOne({ where: { id: id } });
         return res.status(200).json(user.name);
+    } catch (error) {
+        return res.status(409).json({ message: error.message });
+    }
+};
+
+export const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Users.destroy({ where: { id: id } });
+        return res.status(200).json("User deleted successfully.");
     } catch (error) {
         return res.status(409).json({ message: error.message });
     }
